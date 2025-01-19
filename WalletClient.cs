@@ -2,10 +2,14 @@
 {
     public class WalletClient
     {
-        private int _sumWallet = 30000;
-        private int _sumBuy = 0;
+        private Random random = new Random();
 
-        public int SumWallet { get { return _sumWallet; } set { _sumWallet = value; } }
-        public int SumBuy { get { return _sumBuy; } set { _sumBuy = value; } }
+        public int SumWallet { get; set; }
+
+        public int Generate(int minValue, int maxValue)
+        {
+            SumWallet = random.Next(minValue, maxValue);
+            return SumWallet;
+        }
     }
 }

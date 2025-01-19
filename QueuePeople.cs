@@ -12,24 +12,29 @@
 
         };
 
-        private readonly Queue<Client> _clientsQueue = new Queue<Client>(_clientsList);
+        private readonly Queue<Client> _clients = new Queue<Client>(_clientsList);
 
-        public void DisplayQueue()
+        public void Display()
         {
-            foreach (var clientQueue in _clientsQueue)
+            foreach (var clientQueue in _clients)
             {
                 Console.WriteLine($"Список: {clientQueue.Name}.");
             }
+
             Console.WriteLine();
         }
 
-        public void RemoveClient()
+        public void Remove()
         {
-            if (_clientsQueue.Count != 0)
+            if (_clients.Count != 0)
             {
-                _clientsQueue.Dequeue();
+                _clients.Dequeue();
             }
-            else
+        }
+
+        public void StatusQueue()
+        {
+            if (_clients.Count <= 0)
             {
                 Console.WriteLine("Очередь пуста. Можно закрывать магазин.");
             }
