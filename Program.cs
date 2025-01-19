@@ -14,38 +14,38 @@
     {
         private static void Main(string[] args)
         {
+            WalletClient walletClient = new WalletClient();
             CashRegister cashRegister = new CashRegister();
             ManagerBasket managerBasket = new ManagerBasket();
             QueuePeople queuePeople = new QueuePeople();
             QueueValue queueValue = new QueueValue();
 
-            cashRegister.Welcome();
+            cashRegister.WelcomeAndGo();
+            Console.WriteLine();
+            Console.WriteLine("Очередь покупателей.");
+            queuePeople.Display();
+            walletClient.Generate(5000, 10000);
 
             while (queueValue.ExitProgram != true)
             {
-                Console.WriteLine();
-
                 Console.WriteLine("Выберите нужный пункт: " +
-                    "\n1 - Купить продукт. " +
-                    "\n2 - Выйти из магазина. " +
+                    "\n1 - Добавить продукты в корзину. " +
+                    "\n2 - Купить продукты и уйти из магазина. " +
                     "\n3 - Выйти из программы. " +
                     "\n4 - Убрать продукт по индексу. ");
-
                 string inputCommand = Console.ReadLine();
                 if (int.TryParse(inputCommand, out int numberCommand))
-
                     switch (numberCommand)
                     {
                         case (int)InputCommandCashRegister.ChoiceProduct:
-                            Console.WriteLine("Выберите продукты.");
+                            Console.WriteLine("Выберите продукты:");
                             string product = Console.ReadLine();
-                            managerBasket.BasketFillIn(product);
+                            managerBasket.BasketFillIn(product, walletClient.SumWallet);
                             break;
-                        case (int)InputCommandCashRegister.LeaveClient:
-                            Console.WriteLine("Клиент покидаете магазин...");
-                            managerBasket.BasketClear();
-                            queuePeople.RemoveClient();
-                            queuePeople.DisplayQueue();
+                        case (int)InputCommandCashRegister.BuyLeave:
+                            Console.WriteLine("Покупатель покидаете магазин, c сумкой продуктов: " +
+                                "\nДля продолжение нажмите любую клавишу.");
+                            managerBasket.BuyAndLeave();
                             break;
                         case (int)InputCommandCashRegister.ExitProgram:
                             Console.WriteLine("Выход из программы.");
@@ -56,12 +56,8 @@
                             string delete = Console.ReadLine();
                             managerBasket.BasketFillOut(delete);
                             break;
-                        default:
-                            break;
                     }
-
             }
-
         }
     }
 }
@@ -69,7 +65,7 @@
 public enum InputCommandCashRegister
 {
     ChoiceProduct = 1,
-    LeaveClient,
+    BuyLeave,
     ExitProgram,
-    DeleteProduct
+    DeleteProduct,
 }
