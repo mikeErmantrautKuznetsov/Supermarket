@@ -1,45 +1,46 @@
 ﻿namespace Supermarket
 {
-    public class BasketClient  //Товары на добавление в сумку или удаление
+    public class BasketClient
     {
-        private readonly Dictionary<int, Products> _basket = new Dictionary<int, Products>();
+        private readonly Dictionary<int, Product> _basket = new Dictionary<int, Product>();
 
-        public void AddBasket(int key, Products products)
+        public void Add(int key, Product product)
         {
-            _basket.Add(key, products);
+            _basket.Add(key, product);
         }
 
-        public void RemoveBasket(int key)
+        public void Remove(int key)
         {
             _basket.Remove(key);
         }
 
-        public void DisplayBasket()
+        public void Display()
         {
-            foreach (KeyValuePair<int, Products> marketProduct in _basket)
+            foreach (KeyValuePair<int, Product> marketProduct in _basket)
             {
-                Console.WriteLine($"Индекс: {marketProduct.Key} ." +
-                    $"Сумма: {marketProduct.Value.Price} ." +
-                    $"Название: {marketProduct.Value.Name} .");
+                Console.WriteLine($"Индекс: {marketProduct.Key}." +
+                    $"Сумма: {marketProduct.Value.Price}." +
+                    $"Название: {marketProduct.Value.Name}.");
                 Console.WriteLine();
             }
         }
 
-        public void ClearBasket()
+        public int TryAddProduct(int key, Product product)
         {
-            _basket.Clear();
+            if (_basket.ContainsKey(key))
+            {
+                return key++;
+            }
+            else
+            {
+                _basket.Add(key, product);
+            }
+            return key;
         }
 
-        public bool TryGetProduct(int keyProduct, out Products products)
+        public void Clear()
         {
-            products = null;
-
-            if (_basket.ContainsKey(keyProduct))
-            {
-                products = _basket[keyProduct];
-                return true;
-            }
-            return false;
+            _basket.Clear();
         }
     }
 }

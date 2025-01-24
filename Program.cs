@@ -14,38 +14,45 @@
     {
         private static void Main(string[] args)
         {
+            WalletClient walletClient = new WalletClient(1);
             CashRegister cashRegister = new CashRegister();
             ManagerBasket managerBasket = new ManagerBasket();
             QueuePeople queuePeople = new QueuePeople();
             QueueValue queueValue = new QueueValue();
+            WalletQueue walletQueue = new WalletQueue();
 
-            cashRegister.Welcome();
+            cashRegister.WelcomeAndGo();
+            Console.WriteLine();
+            Console.WriteLine("Очередь покупателей.");
+            queuePeople.Display();
+            int sumClient = walletQueue.Add(walletClient.SumWallet);
 
             while (queueValue.ExitProgram != true)
             {
-                Console.WriteLine();
-
                 Console.WriteLine("Выберите нужный пункт: " +
-                    "\n1 - Купить продукт. " +
-                    "\n2 - Выйти из магазина. " +
-                    "\n3 - Выйти из программы. " +
-                    "\n4 - Убрать продукт по индексу. ");
-
+                    "\n1 - Начала обслуживание клиента. " +
+                    "\n2 - Добавить продукты в корзину. " +
+                    "\n3 - Купить продукты и уйти из магазина. " +
+                    "\n4 - Выйти из программы. " +
+                    "\n5 - Убрать продукт по индексу. ");
                 string inputCommand = Console.ReadLine();
                 if (int.TryParse(inputCommand, out int numberCommand))
-
                     switch (numberCommand)
                     {
-                        case (int)InputCommandCashRegister.ChoiceProduct:
-                            Console.WriteLine("Выберите продукты.");
-                            string product = Console.ReadLine();
-                            managerBasket.BasketFillIn(product);
+                        case (int)InputCommandCashRegister.StartBuy:
+                            Console.WriteLine("Следующий клиент.");
+                            sumClient = walletQueue.Add(walletClient.SumWallet);
+                            Console.WriteLine($"Сумма кошелька: {sumClient}.");
                             break;
-                        case (int)InputCommandCashRegister.LeaveClient:
-                            Console.WriteLine("Клиент покидаете магазин...");
-                            managerBasket.BasketClear();
-                            queuePeople.RemoveClient();
-                            queuePeople.DisplayQueue();
+                        case (int)InputCommandCashRegister.ChoiceProduct:
+                            Console.WriteLine("Выберите продукты:");
+                            string product = Console.ReadLine();
+                            managerBasket.BasketFillIn(product, sumClient);
+                            break;
+                        case (int)InputCommandCashRegister.BuyLeave:
+                            Console.WriteLine("Покупатель покидаете магазин, c сумкой продуктов: " +
+                                "\nДля продолжение нажмите любую клавишу, после выберите пункт обслуживание следующего клиента.");
+                            managerBasket.BuyAndLeave();
                             break;
                         case (int)InputCommandCashRegister.ExitProgram:
                             Console.WriteLine("Выход из программы.");
@@ -56,20 +63,17 @@
                             string delete = Console.ReadLine();
                             managerBasket.BasketFillOut(delete);
                             break;
-                        default:
-                            break;
                     }
-
             }
-
         }
     }
 }
 
 public enum InputCommandCashRegister
 {
-    ChoiceProduct = 1,
-    LeaveClient,
+    StartBuy = 1,
+    ChoiceProduct,
+    BuyLeave,
     ExitProgram,
-    DeleteProduct
+    DeleteProduct,
 }

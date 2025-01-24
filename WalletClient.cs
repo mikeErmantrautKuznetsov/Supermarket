@@ -2,10 +2,13 @@
 {
     public class WalletClient
     {
-        private int _sumWallet = 30000;
-        private int _sumBuy = 0;
+        private int _sumWallet;
 
         public int SumWallet { get { return _sumWallet; } set { _sumWallet = value; } }
-        public int SumBuy { get { return _sumBuy; } set { _sumBuy = value; } }
+
+        public WalletClient(int sumWallet)
+        {
+            SumWallet = sumWallet;
+        }
     }
 }
