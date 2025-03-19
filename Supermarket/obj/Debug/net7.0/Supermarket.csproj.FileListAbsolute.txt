@@ -1,0 +1,15 @@
+D:\Visual Studio\Supermarket\bin\Debug\net7.0\Supermarket.exe
+D:\Visual Studio\Supermarket\bin\Debug\net7.0\Supermarket.deps.json
+D:\Visual Studio\Supermarket\bin\Debug\net7.0\Supermarket.runtimeconfig.json
+D:\Visual Studio\Supermarket\bin\Debug\net7.0\Supermarket.dll
+D:\Visual Studio\Supermarket\bin\Debug\net7.0\Supermarket.pdb
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.csproj.AssemblyReference.cache
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.GeneratedMSBuildEditorConfig.editorconfig
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.AssemblyInfoInputs.cache
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.AssemblyInfo.cs
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.csproj.CoreCompileInputs.cache
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.dll
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\refint\Supermarket.dll
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.pdb
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\Supermarket.genruntimeconfig.cache
+D:\Visual Studio\Supermarket\obj\Debug\net7.0\ref\Supermarket.dll
