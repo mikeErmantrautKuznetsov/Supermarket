@@ -13,7 +13,7 @@
         {
             foreach (KeyValuePair<int, Product> marketProduct in _basket)
             {
-                Console.WriteLine($"Индекс: {marketProduct.Key}." +
+                Console.WriteLine($"Номер: {marketProduct.Key}." +
                     $"Сумма: {marketProduct.Value.Price}." +
                     $"Название: {marketProduct.Value.Name}.");
                 Console.WriteLine();
@@ -22,24 +22,16 @@
 
         public int AddProduct(int key, Product product)
         {
-            if (_basket.ContainsKey(key))
+            if (_basket.TryAdd(key, product))
             {
-                int newKey = 1;
-                while (true)
-                {
-                    if (!_basket.ContainsKey(newKey))
-                    {
-                        _basket.Add(newKey, product);
-                        break;
-                    }
-                    newKey++;
-                }
+                return key;
             }
             else
             {
-                _basket.Add(key, product);
+                int newKey = _basket.Keys.Max() + 1;
+                _basket.Add(newKey, product);
+                return newKey;
             }
-            return key;
         }
 
         public void Clear()
