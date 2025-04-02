@@ -12,7 +12,7 @@
             {6, new Product(2000, "Коньяк", 100000) },
         };
 
-        public void Display()
+        public void DisplayWareHouse()
         {
             foreach (KeyValuePair<int, Product> marketProduct in _shelves)
             {
