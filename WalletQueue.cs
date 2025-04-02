@@ -2,22 +2,22 @@
 {
     public class WalletQueue
     {
-        private readonly static List<WalletClient> _walletClient = new List<WalletClient>()
+        private readonly static List<Wallet> _walletClient = new List<Wallet>()
         {
-            new WalletClient(6000),
-            new WalletClient(4000),
-            new WalletClient(7000),
-            new WalletClient(8000),
-            new WalletClient(9000)
+            new Wallet(6000),
+            new Wallet(4000),
+            new Wallet(7000),
+            new Wallet(8000),
+            new Wallet(9000)
         };
 
-        private readonly Queue<WalletClient> _wallets = new Queue<WalletClient>(_walletClient);
+        private readonly Queue<Wallet> _wallets = new Queue<Wallet>(_walletClient);
 
         public void Display()
         {
             foreach (var Queue in _wallets)
             {
-                Console.WriteLine($"Сумма кошелька: {Queue.SumWallet}.");
+                Console.WriteLine($"Сумма кошелька: {Queue.MoneyAmount}.");
             }
 
             Console.WriteLine();
@@ -26,7 +26,7 @@
         public int Add(int sum)
         {
             var sumWallet = _wallets.Dequeue();
-            sum = sumWallet.SumWallet;
+            sum = sumWallet.MoneyAmount;
             return sum;
         }
 

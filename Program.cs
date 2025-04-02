@@ -14,49 +14,49 @@
     {
         private static void Main(string[] args)
         {
-            WalletClient walletClient = new WalletClient(1);
-            CashRegister cashRegister = new CashRegister();
-            ManagerBasket managerBasket = new ManagerBasket();
+            Wallet walletClient = new Wallet(0);
             QueuePeople queuePeople = new QueuePeople();
-            QueueValue queueValue = new QueueValue();
             WalletQueue walletQueue = new WalletQueue();
+            Wallet supermarketWallet = new Wallet(walletQueue.Add(walletClient.MoneyAmount));
+            Warehouse warehouse = new Warehouse();
+            Basket basket = new Basket();
+            CashRegister cashRegister = new CashRegister(supermarketWallet, warehouse);
+            ManagerBasket managerBasket = new ManagerBasket(warehouse, basket, cashRegister, queuePeople, walletQueue, walletClient);
 
-            cashRegister.WelcomeAndGo();
+            cashRegister.DisplayWelcomeMessage();
             Console.WriteLine();
             Console.WriteLine("Очередь покупателей.");
             queuePeople.Display();
-            int sumClient = walletQueue.Add(walletClient.SumWallet);
 
-            while (queueValue.ExitProgram != true)
+            bool exitProgram = false;
+
+            while (exitProgram != true)
             {
                 Console.WriteLine("Выберите нужный пункт: " +
-                    "\n1 - Начала обслуживание клиента. " +
-                    "\n2 - Добавить продукты в корзину. " +
-                    "\n3 - Купить продукты и уйти из магазина. " +
-                    "\n4 - Выйти из программы. " +
-                    "\n5 - Убрать продукт по индексу. ");
+                    "\n1 - Добавить продукты в корзину. " +
+                    "\n2 - Купить продукты и уйти из магазина. " +
+                    "\n3 - Выйти из программы. " +
+                    "\n4 - Убрать продукт по индексу. ");
+
                 string inputCommand = Console.ReadLine();
+
                 if (int.TryParse(inputCommand, out int numberCommand))
+                {
                     switch (numberCommand)
                     {
-                        case (int)InputCommandCashRegister.StartBuy:
-                            Console.WriteLine("Следующий клиент.");
-                            sumClient = walletQueue.Add(walletClient.SumWallet);
-                            Console.WriteLine($"Сумма кошелька: {sumClient}.");
-                            break;
                         case (int)InputCommandCashRegister.ChoiceProduct:
                             Console.WriteLine("Выберите продукты:");
                             string product = Console.ReadLine();
-                            managerBasket.BasketFillIn(product, sumClient);
+                            managerBasket.BasketFillIn(product);
                             break;
                         case (int)InputCommandCashRegister.BuyLeave:
                             Console.WriteLine("Покупатель покидаете магазин, c сумкой продуктов: " +
                                 "\nДля продолжение нажмите любую клавишу, после выберите пункт обслуживание следующего клиента.");
-                            managerBasket.BuyAndLeave();
+                            managerBasket.Leave();
                             break;
                         case (int)InputCommandCashRegister.ExitProgram:
                             Console.WriteLine("Выход из программы.");
-                            queueValue.ExitProgram = true;
+                            exitProgram = true;
                             break;
                         case (int)InputCommandCashRegister.DeleteProduct:
                             Console.WriteLine("Выберите продукт для удалению из корзины.");
@@ -64,6 +64,7 @@
                             managerBasket.BasketFillOut(delete);
                             break;
                     }
+                }
             }
         }
     }
@@ -71,9 +72,8 @@
 
 public enum InputCommandCashRegister
 {
-    StartBuy = 1,
-    ChoiceProduct,
+    ChoiceProduct = 1,
     BuyLeave,
     ExitProgram,
-    DeleteProduct,
+    DeleteProduct
 }
